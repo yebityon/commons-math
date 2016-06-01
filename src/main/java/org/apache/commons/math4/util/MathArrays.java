@@ -1931,4 +1931,73 @@ public class MathArrays {
         }
         return out;
     }
+
+    /**
+     * Retrieves the index of the minimum among the values
+     * stored in the given {@code array}.
+     * In case of several occurrences of the smallest value,
+     * the index of the first one is returned.
+     *
+     * @param array Data.
+     * @return the index of the minimum or -1 if the array is
+     * {@code null} or has zero length.
+     */
+    public static int argMin(final double[] array) {
+        return argMinOrMax(array, true);
+    }
+
+    /**
+     * Retrieves the index of the maximum among the values
+     * stored in the given {@code array}.
+     * In case of several occurrences of the largest value,
+     * the index of the first one is returned.
+     *
+     * @param array Data.
+     * @return the index of the maximum or -1 if the array is
+     * {@code null} or has zero length.
+     */
+    public static int argMax(final double[] array) {
+        return argMinOrMax(array, false);
+    }
+
+    /**
+     * Retrieves the location of the requested element (either
+     * min or max value).
+     *
+     * @param data Array.
+     * @param isMin If {@code true}, the minimum is searched for,
+     * otherwise the maximum.
+     * @return the index of the element that satisfies the condition
+     * or -1 if the array is {@code null} or has zero length.
+     */
+    private static int argMinOrMax(final double[] data,
+                                   boolean isMin) {
+        if (data == null ||
+            data.length == 0) {
+            return -1;
+        }
+
+        int index = 0;
+        double selected = data[0];
+
+        if (isMin) {
+            for (int i = 1; i < data.length; i++) {
+                final double current = data[i];
+                if (current < selected) {
+                    index = i;
+                    selected = current;
+                }
+            }
+        } else {
+            for (int i = 1; i < data.length; i++) {
+                final double current = data[i];
+                if (current > selected) {
+                    index = i;
+                    selected = current;
+                }
+            }
+        }
+
+        return index;
+    }
 }
