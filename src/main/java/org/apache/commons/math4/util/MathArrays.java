@@ -1977,24 +1977,16 @@ public class MathArrays {
             return -1;
         }
 
-        int index = 0;
-        double selected = data[0];
+        final int direction = isMin ? 1 : -1;
 
-        if (isMin) {
-            for (int i = 1; i < data.length; i++) {
-                final double current = data[i];
-                if (current < selected) {
-                    index = i;
-                    selected = current;
-                }
-            }
-        } else {
-            for (int i = 1; i < data.length; i++) {
-                final double current = data[i];
-                if (current > selected) {
-                    index = i;
-                    selected = current;
-                }
+        int index = 0;
+        double selected = direction * data[0];
+
+        for (int i = 1; i < data.length; i++) {
+            final double current = direction * data[i];
+            if (current < selected) {
+                index = i;
+                selected = current;
             }
         }
 
