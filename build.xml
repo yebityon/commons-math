@@ -221,6 +221,43 @@
      </fail>
   </target>
 
+<!-- ========== selogger test  ========================================== -->  
+  <target name="selog-test"  depends="compile.tests"
+                       description="Run unit tests">
+      <mkdir dir="${test.reports}"/>
+      <junit printsummary="true"
+               errorProperty="test.failed"
+               failureProperty="test.failed"
+               fork="true"
+               showOutput="true">
+               <formatter type="brief"/>
+               <classpath refid="test.classpath"/>
+               <jvmarg value="-javaagent:../selogger/target/selogger-0.2.2.jar" /> 
+               <!-- If test.entry is defined, run a single test, otherwise run all valid tests -->
+               <!-- N.B. test.entry must be the full path to the test class, for example:
+               ant test -Dtest.entry=org.apache.commons.math.util.FastMathTestPerformance
+               -->
+               <test name="${test.entry}" todir="${test.reports}" if="test.entry"/>
+               <batchtest todir="${test.reports}" unless="test.entry">
+                   <fileset dir="${test.home}">
+                      <include name="**/*Test.java"/> 
+                      <include name="**/*TestBinary.java"/> 
+                      <include name="**/*TestPermutations.java"/> 
+                      <exclude name="**/*AbstractTest.java"/>
+                   </fileset>
+               </batchtest>
+       </junit>
+       <fail message="There were test failures.">
+           <condition>
+               <and>
+                   <istrue value="${test.failonerror}"/>
+                   <isset property="test.failed"/>
+               </and>
+           </condition>
+     </fail>
+  </target>
+
+
 
 <!-- ========== Produce JavaDocs ========================================== -->
 
